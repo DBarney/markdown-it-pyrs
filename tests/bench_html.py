@@ -10,6 +10,15 @@ def spec_text():
 
 
 @pytest.mark.benchmark(group="html")
+def test_markdown_it_py(benchmark, spec_text):
+    import markdown_it
+
+    parser = markdown_it.MarkdownIt("commonmark")
+    benchmark.extra_info["version"] = markdown_it.__version__
+    benchmark(parser.render, spec_text)
+
+
+@pytest.mark.benchmark(group="html")
 def test_markdown_it_pyrs(benchmark, spec_text):
     import markdown_it_pyrs
 
