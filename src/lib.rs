@@ -212,12 +212,24 @@ impl MarkdownIt {
     /// Render markdown string into HTML.
     /// If `xhtml` is true, then self-closing tags will include a slash, e.g. `<br />`.
     #[pyo3(signature = (src, *, xhtml=true))]
+    fn render_mt(&self, py: Python, src: &str, xhtml: bool) -> String {
+        py.allow_threads(|| {
+            let ast = self.parser.parse(src);
+            match xhtml {
+                true => ast.xrender(),
+                false => ast.render(),
+            }
+        })
+    }
+    /// Render markdown string into HTML.
+    /// If `xhtml` is true, then self-closing tags will include a slash, e.g. `<br />`.
+    #[pyo3(signature = (src, *, xhtml=true))]
     fn render(&self, src: &str, xhtml: bool) -> String {
-        let ast = self.parser.parse(src);
-        match xhtml {
-            true => ast.xrender(),
-            false => ast.render(),
-        }
+            let ast = self.parser.parse(src);
+            match xhtml {
+                true => ast.xrender(),
+                false => ast.render(),
+            }
     }
 
     /// Create a syntax tree from the markdown string.
