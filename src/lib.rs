@@ -225,11 +225,11 @@ impl MarkdownIt {
     /// If `xhtml` is true, then self-closing tags will include a slash, e.g. `<br />`.
     #[pyo3(signature = (src, *, xhtml=true))]
     fn render(&self, src: &str, xhtml: bool) -> String {
-            let ast = self.parser.parse(src);
-            match xhtml {
-                true => ast.xrender(),
-                false => ast.render(),
-            }
+        let ast = self.parser.parse(src);
+        match xhtml {
+            true => ast.xrender(),
+            false => ast.render(),
+        }
     }
 
     /// Create a syntax tree from the markdown string.
